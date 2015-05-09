@@ -74,78 +74,78 @@ class Game
 		@location_cards = {}
 
 		@location_cards["WOODS"] = {
-			:Monster => 4,
-			:Barrier => 2,
-			:Weapon => 1,
-			:Spell => 0,
-			:Armor => 0,
-			:Item => 2,
-			:Ally => 0,
-			:Blessing => 0,
-			:AtThisLocation => "",
-			:WhenClosing => "",
-			:WhenPermanentlyClosed => "",
-			:Closing => "none"
+			"Monster" => 4,
+			"Barrier" => 2,
+			"Weapon" => 1,
+			"Spell" => 0,
+			"Armor" => 0,
+			"Item" => 2,
+			"Ally" => 0,
+			"Blessing" => 0,
+			"AtThislocation" => "",
+			"WhenClosing" => "",
+			"WhenPermanentlyClosed" => "",
+			"Closing" => "none"
 		}
 
 		@location_cards["FARM HOUSE"] = {
-			:Monster => 4,
-			:Barrier => 2,
-			:Weapon => 1,
-			:Spell => 0,
-			:Armor => 0,
-			:Item => 2,
-			:Ally => 0,
-			:Blessing => 0,
-			:AtThisLocation => "",
-			:WhenClosing => "",
-			:WhenPermanentlyClosed => "",
-			:Closing => "none"
+			"Monster" => 4,
+			"Barrier" => 2,
+			"Weapon" => 1,
+			"Spell" => 0,
+			"Armor" => 0,
+			"Item" => 2,
+			"Ally" => 0,
+			"Blessing" => 0,
+			"AtThislocation" => "",
+			"WhenClosing" => "",
+			"WhenPermanentlyClosed" => "",
+			"Closing" => "none"
 		}
 
-		@location_cards["ACAREMY"] = {
-			:Monster => 4,
-			:Barrier => 2,
-			:Weapon => 1,
-			:Spell => 0,
-			:Armor => 0,
-			:Item => 2,
-			:Ally => 0,
-			:Blessing => 0,
-			:AtThisLocation => "",
-			:WhenClosing => "",
-			:WhenPermanentlyClosed => "",
-			:Closing => "none"
+		@location_cards["ACADEMY"] = {
+			"Monster" => 4,
+			"Barrier" => 2,
+			"Weapon" => 1,
+			"Spell" => 0,
+			"Armor" => 0,
+			"Item" => 2,
+			"Ally" => 0,
+			"Blessing" => 0,
+			"AtThislocation" => "",
+			"WhenClosing" => "",
+			"WhenPermanentlyClosed" => "",
+			"Closing" => "none"
 		}
 
 		@location_cards["WATERFRONT"] = {
-			:Monster => 4,
-			:Barrier => 2,
-			:Weapon => 1,
-			:Spell => 0,
-			:Armor => 0,
-			:Item => 2,
-			:Ally => 0,
-			:Blessing => 0,
-			:AtThisLocation => "",
-			:WhenClosing => "",
-			:WhenPermanentlyClosed => "",
-			:Closing => "none"
+			"Monster" => 4,
+			"Barrier" => 2,
+			"Weapon" => 1,
+			"Spell" => 0,
+			"Armor" => 0,
+			"Item" => 2,
+			"Ally" => 0,
+			"Blessing" => 0,
+			"AtThislocation" => "",
+			"WhenClosing" => "",
+			"WhenPermanentlyClosed" => "",
+			"Closing" => "none"
 		}
 
 		@location_cards["WOODEN BRIDGE"] = {
-			:Monster => 4,
-			:Barrier => 2,
-			:Weapon => 1,
-			:Spell => 0,
-			:Armor => 0,
-			:Item => 2,
-			:Ally => 0,
-			:Blessing => 0,
-			:AtThisLocation => "",
-			:WhenClosing => "",
-			:WhenPermanentlyClosed => "",
-			:Closing => "none"
+			"Monster" => 4,
+			"Barrier" => 2,
+			"Weapon" => 1,
+			"Spell" => 0,
+			"Armor" => 0,
+			"Item" => 2,
+			"Ally" => 0,
+			"Blessing" => 0,
+			"AtThislocation" => "",
+			"WhenClosing" => "",
+			"WhenPermanentlyClosed" => "",
+			"Closing" => "none"
 		}
 
 =begin		
@@ -157,7 +157,7 @@ class Game
 		@location_cards["WOODS"]["Item"] = 2
 		@location_cards["WOODS"]["Ally"] = 0										
 		@location_cards["WOODS"]["Blessing"] = 0
-		@location_cards["WOODS"]["AtThisLocation"] = ""
+		@location_cards["WOODS"]["AtThislocation"] = ""
 		@location_cards["WOODS"]["WhenClosing"] = ""
 		@location_cards["WOODS"]["WhenPermanentlyClosed"] = ""
 =end
@@ -171,6 +171,9 @@ class Game
 
 		location_numbers = [0,1,2,3,4]
 		shuffle( location_numbers )
+		location_numbers.each do |number|
+			@location_decks[@locations[number]].push(@bosses[number])
+		end
 #		p location_numbers
 
 		@blessings = [ 
@@ -239,6 +242,29 @@ class Game
 		@characters["MERISIEL"] = {}
 		@characters["MERISIEL"]["handsize"] = 5
 
+		@token_cards = {}
+
+=begin
+		@token_cards["VALEROS"] = {}
+		@token_cards["EZREN"] = {}
+		@token_cards["MERISIEL"] = {}		
+
+		@token_cards["VALEROS"]["location"] = "WOODS"
+		@token_cards["EZREN"]["location"] = "WOODS"
+		@token_cards["MERISIEL"]["location"] = "WOODS"				
+=end
+
+		@token_cards["VALEROS"] = {
+			"location" => "ACADEMY"
+		}
+
+		@token_cards["EZREN"] = {
+			"location" => "ACADEMY"
+		}
+
+		@token_cards["MERISIEL"] = {
+			"location" => "WOODS"
+		}
 
 	end
 
@@ -268,7 +294,35 @@ class Game
 	end
 
 	def show_hand( player )
-		print "[",@player_hands[player].join(','), "]\n"
+		print "#{player}'s Hand"
+		@player_hands[player].each_index do |index|
+			print "[#{index}: #{@player_hands[player][index]}]"
+		end
+		print "\n"
+#		print "[",@player_hands[player].join(','), "]\n"
+	end
+
+	def show_opened_locations
+		result = []
+		@locations.each_index do |index|
+#			print @locations[index], "\t"
+			if @location_cards[@locations[index]]["Closing"] == "none"
+				print "[#{index}: #{@locations[index]}] "
+				result.push @locations[index]
+			end
+		end
+		print "\n"
+		result
+	end
+
+	def show_players( location )
+		print "Players: "
+#		print "Players: <#{location}>"
+		@players.each_index do |index|
+			print "[#{index}: #{@players[index]}] " if location == @token_cards[@players[index]]["location"] || location == nil
+		end
+		print "at location: #{location}" if location != nil
+		print "\n"
 	end
 
 	def init_game
@@ -276,12 +330,18 @@ class Game
 		self.init_senario
 
 		@player_decks.each_key do |key|
-			print key,": "
+			print key,"\n"
 			shuffle( @player_decks[key] )
 			draw( @player_decks[key], @player_hands[key], @characters[key]["handsize"])
 			#show_deck( key )
-			show_hand( key )	
+#			show_hand( key )	
 		end
+
+		@location_decks.each_key do |key|
+			shuffle( @location_decks[key] )
+#			p @location_decks[key]
+		end
+
 
 
 =begin
@@ -306,18 +366,20 @@ class Game
 
 			@players.each do |player|
 				turn_number += 1
+				current_location = @token_cards[player]["location"]
 
 				print "-----------------------------------------\n"
 				print "Senario: #{@senario["Name"]}\n"
 				print "Turn [#{turn_number}]: #{player}'s Turn.\n"
-				print "Unclosed locations: "				
-				@location_cards.each_key do |key|
-					print " [#{key}] " unless @location_cards[key]["Closing"]
-				end
+				print "Unclosed locations: "
+				show_opened_locations		
+#				@location_cards.each_key do |key|
+#					print " [#{key}]: unless @location_cards[key]["Closing"]
+#				end
 				print "\n"
 
 				# blessings 
-				print "%%% Advance the Blessings deck %%%}\n"
+				print "%%% Advance the Blessings deck %%%\n"
 				if @blessings.size < 1
 					print "No more blessings!\n"
 					print "You lose the game....\n\n"
@@ -330,28 +392,50 @@ class Game
 					print "#{@blessings.size} cards are remained in the blessings deck.\n\n"
 				end
 
-				print "#{player}: "
-				show_hand( player)
-				print "\"
+#				print "#{player}" "
+
 
 				# giving a card to another player
+
+				print "[[[[ GIVING phase ]]]]\n"
+				show_hand(player)
+#				p @token_cards[player]
+#				@token_cards[player].each_key do |key| 
+#					print "[",key,"]\n"
+#					print "[location]\n"
+#					print "OK" if key == "location"
+#					print @token_cards[player][key],"\n"
+#					print @token_cards[player]["location"],"\n"
+#				end
+				show_players( current_location )
+				print "\n"
 
 				print "*** Do you give a card to another player? [y/N]\n"
 				buf = gets
 				if buf =~ /y/
-					print "OK, giving!\n"
+					print "OK, giving!\n\n"
 				else
-					print "Pass\n"
+					print "Pass\n\n"
 				end
 
 				# move to another location
 
-				print "*** Do you move to another location? [y/N]\n"
+				print "[[[[ MOVING phase ]]]]\n"
+				print "Your location: #{current_location}\n"
+				location_list = show_opened_locations
+				print "\n"
+
+				print "*** Do you move to another location? [0-#{location_list.size-1}]\n"
 				buf = gets
-				if buf =~ /y/
-					print "OK, moving!\n"
+				if buf =~ /(\d+)/
+					if $1.to_i > 0 && $1.to_i < location_list.size
+						print "OK, moving!\n\n"
+						@token_cards[player]["location"] = @locations[$1.to_i]
+						current_location = @token_cards[player]["location"]
+						print "Your (#{player}) location is changed to #{current_location}.\n"
+					end
 				else
-					print "Pass\n"
+					print "Pass\n\n"
 				end
 
 				# explorer
@@ -359,18 +443,21 @@ class Game
 				print "*** Do you explore? [y/N]\n"
 				buf = gets
 				if buf =~ /y/
-					print "OK, exploring!\n"
+					print "OK, exploring!\n\n"
 				else
-					print "Pass\n"
+					print "Pass\n\n"
 				end
 
 				# closing current location
+				if @location_decks[current_location].size == 0
+					print "No more location cards at #{current_location}\n"
+				end
 				print "*** Do you close current location? [y/N]\n"
 				buf = gets
 				if buf =~ /y/
-					print "OK, closing!\n"
+					print "OK, closing!\n\n"
 				else
-					print "Pass\n"
+					print "Pass\n\n"
 				end
 
 				# refresh
