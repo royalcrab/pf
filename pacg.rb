@@ -55,7 +55,12 @@ class Game
 
 	@running
 
-	def initialize
+	def init_senario
+
+		@senario = {}
+		@senario["Name"] = "BRIGANDOOM!"
+		@senario["Text"] = ""
+
 		@players = ["VALEROS", "EZREN", "MERISIEL"]
 		@locations = ["WOODS", "ACADEMY", "WATERFRONT", "FARM HOUSE", "WOODEN BRIDGE"]
 		@bosses = ["JUBRAYL VHISKI","BANDIT","BANDIT","BANDIT","BANDIT","BANDIT","BANDIT","BANDIT"]
@@ -79,7 +84,8 @@ class Game
 			:Blessing => 0,
 			:AtThisLocation => "",
 			:WhenClosing => "",
-			:WhenPermanentlyClosed => ""
+			:WhenPermanentlyClosed => "",
+			:Closing => "none"
 		}
 
 		@location_cards["FARM HOUSE"] = {
@@ -93,7 +99,8 @@ class Game
 			:Blessing => 0,
 			:AtThisLocation => "",
 			:WhenClosing => "",
-			:WhenPermanentlyClosed => ""
+			:WhenPermanentlyClosed => "",
+			:Closing => "none"
 		}
 
 		@location_cards["ACAREMY"] = {
@@ -107,7 +114,8 @@ class Game
 			:Blessing => 0,
 			:AtThisLocation => "",
 			:WhenClosing => "",
-			:WhenPermanentlyClosed => ""
+			:WhenPermanentlyClosed => "",
+			:Closing => "none"
 		}
 
 		@location_cards["WATERFRONT"] = {
@@ -121,7 +129,8 @@ class Game
 			:Blessing => 0,
 			:AtThisLocation => "",
 			:WhenClosing => "",
-			:WhenPermanentlyClosed => ""
+			:WhenPermanentlyClosed => "",
+			:Closing => "none"
 		}
 
 		@location_cards["WOODEN BRIDGE"] = {
@@ -135,7 +144,8 @@ class Game
 			:Blessing => 0,
 			:AtThisLocation => "",
 			:WhenClosing => "",
-			:WhenPermanentlyClosed => ""
+			:WhenPermanentlyClosed => "",
+			:Closing => "none"
 		}
 
 =begin		
@@ -158,6 +168,10 @@ class Game
 				"Weapon","Blessing","Armor","Ally",
 			]
 		end
+
+		location_numbers = [0,1,2,3,4]
+		shuffle( location_numbers )
+#		p location_numbers
 
 		@blessings = [ 
 			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
@@ -250,19 +264,22 @@ class Game
 	end
 
 	def show_deck( player )
-		print @player_decks[player].join(','), "\n"
+		print "[",@player_decks[player].join(','), "]\n"
 	end
 
 	def show_hand( player )
-		print @player_hands[player].join(','), "\n"
+		print "[",@player_hands[player].join(','), "]\n"
 	end
 
 	def init_game
+
+		self.init_senario
+
 		@player_decks.each_key do |key|
-			p key
+			print key,": "
 			shuffle( @player_decks[key] )
 			draw( @player_decks[key], @player_hands[key], @characters[key]["handsize"])
-			show_deck( key )
+			#show_deck( key )
 			show_hand( key )	
 		end
 
@@ -287,13 +304,20 @@ class Game
 		turn_number = 0
 		while @running do
 
-			@players.each do |p|
+			@players.each do |player|
 				turn_number += 1
 
 				print "-----------------------------------------\n"
-				print "Turn [#{turn_number}]: #{p}'s Turn.\n"
+				print "Senario: #{@senario["Name"]}\n"
+				print "Turn [#{turn_number}]: #{player}'s Turn.\n"
+				print "Unclosed locations: "				
+				@location_cards.each_key do |key|
+					print " [#{key}] " unless @location_cards[key]["Closing"]
+				end
+				print "\n"
+
 				# blessings 
-				print "*** Advance the Blessings deck ***}\n"
+				print "%%% Advance the Blessings deck %%%}\n"
 				if @blessings.size < 1
 					print "No more blessings!\n"
 					print "You lose the game....\n\n"
@@ -306,7 +330,9 @@ class Game
 					print "#{@blessings.size} cards are remained in the blessings deck.\n\n"
 				end
 
-				show_hand( p )
+				print "#{player}: "
+				show_hand( player)
+				print "\"
 
 				# giving a card to another player
 
