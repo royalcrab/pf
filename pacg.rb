@@ -174,6 +174,9 @@ class Game
 		location_numbers.each do |number|
 			@location_decks[@locations[number]].push(@bosses[number])
 		end
+		@location_decks.each do |deck|
+			shuffle( deck )
+		end
 #		p location_numbers
 
 		@blessings = [ 
@@ -357,20 +360,28 @@ class Game
 
 	end
 
+	def explore(player, current_location)
+		if @location_decks[current_location].size < 1
+			print "No more cards at #{current_location}!! You can not explore this location.\n"
+			return false
+		end
+		encounter_card = @location_decks[current_location].pop
+		print "You will encounter [#{encounter_card}]\n"
 
+	end
 
 	def main_loop
 		@running = true
-		turn_number = 0
+		@turn_number = 0
 		while @running do
 
 			@players.each do |player|
-				turn_number += 1
+				@turn_number += 1
 				current_location = @token_cards[player]["location"]
 
 				print "-----------------------------------------\n"
 				print "Senario: #{@senario["Name"]}\n"
-				print "Turn [#{turn_number}]: #{player}'s Turn.\n"
+				print "Turn [#{@turn_number}]: #{player}'s Turn.\n"
 				print "Unclosed locations: "
 				show_opened_locations		
 #				@location_cards.each_key do |key|
@@ -443,7 +454,8 @@ class Game
 				print "*** Do you explore? [y/N]\n"
 				buf = gets
 				if buf =~ /y/
-					print "OK, exploring!\n\n"
+					print "OK, exploring! --------------------------------- \n\n"
+					explore(player,current_location)
 				else
 					print "Pass\n\n"
 				end
