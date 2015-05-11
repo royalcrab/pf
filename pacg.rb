@@ -1,5 +1,5 @@
 
-
+require './pacgcard'
 
 class CommonCardMaster
 	@name
@@ -55,7 +55,11 @@ class Game
 
 	@running
 
+	include PacgCards
+
 	def init_senario
+
+		init_cards
 
 		@senario = {}
 		@senario["Name"] = "BRIGANDOOM!"
@@ -164,7 +168,7 @@ class Game
 
 		@locations.each do |location|
 			@location_decks[location] = [
-				"Monster","Monster","Barrier","Item","Spell",
+				"GIANT GECKO","ZOMBIE","LARGE CHEST","Item","Spell",
 				"Weapon","Blessing","Armor","Ally",
 			]
 		end
