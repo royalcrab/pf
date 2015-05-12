@@ -53,5 +53,54 @@ module PacgCards
 			"Powers" => nil
 		}
 
+
+		@common_cards["CROWBAR"] = {
+			"Type" => "Item",
+			"Trait" => ["Tool","Basic"],
+			"Adventure" => "B",
+			"Set" => "Rise of the Runelords",
+			"CheckToAcquire" => ["Strength"],
+			"Strength" => 3,
+			"Text" => "このカードを公開することで、Combat ではない Strength のチェックか Lock か Obstacle の属性をもつ barrier を倒すチェックにダイスを 1 つ追加する。このカードを捨てることで、さらにダイス 1 つを追加してもよい。",
+			"Recharge" => ["Strength",3],
+			"Powers" => nil
+		}
+
+		@common_cards["LONG SWOARD"] = {
+			"Type" => "Weapon",
+			"Trait" => ["Sword","Melee", "Slashing", "Basic"],
+			"Adventure" => "B",
+			"Set" => "Rise of the Runelords",
+			"CheckToAcquire" => ["Strength","Melee"],
+			"Strength" => 6,
+			"Melee" => 6,			
+			"Text" => "",
+			"Powers" => nil
+		}
+
+		@common_cards["LEATHER ARMOR"] = {
+			"Type" => "Armor",
+			"Trait" => ["Light Armor", "Basic"],
+			"Adventure" => "B",
+			"Set" => "Rise of the Runelords",
+			"CheckToAcquire" => ["Constitution","Fortitude"],
+			"Constitution" => 2,
+			"Fortitude" => 2,			
+			"Text" => "",
+			"Powers" => nil
+		}
+
+		@common_cards["SAGE"] = {
+			"Type" => "Ally",
+			"Trait" => ["Human","Sage", "Basic"],
+			"Adventure" => "B",
+			"Set" => "Rise of the Runelords",
+			"CheckToAcquire" => ["Wisdom","Charisma","Diplomacy"],
+			"Wisdom" => 7,
+			"Charisma" => 6,
+			"Diplomacy" => 6,
+			"Text" => "",
+			"Powers" => nil
+		}
 	end
 end

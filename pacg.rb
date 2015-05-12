@@ -168,8 +168,8 @@ class Game
 
 		@locations.each do |location|
 			@location_decks[location] = [
-				"GIANT GECKO","ZOMBIE","LARGE CHEST","Item","Spell",
-				"Weapon","Blessing","Armor","Ally",
+				"GIANT GECKO","ZOMBIE","LARGE CHEST","CRAWBAR","FORCE MISSILE",
+				"LONG SWARD","BLESSING OF THE GODS","LEATHER ARMOR","SAGE",
 			]
 		end
 
