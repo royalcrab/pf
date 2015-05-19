@@ -54,12 +54,19 @@ class Game
 	@characters	
 
 	@running
+	@encounter_card
+
+	@situation
+
 
 	include PacgCards
 
 	def init_senario
 
 		init_cards
+
+#		card_name = "BLESSING OF THE GODS"
+#		print @common_cards[card_name]
 
 		@senario = {}
 		@senario["Name"] = "BRIGANDOOM!"
@@ -69,13 +76,10 @@ class Game
 		@locations = ["WOODS", "ACADEMY", "WATERFRONT", "FARM HOUSE", "WOODEN BRIDGE"]
 		@bosses = ["JUBRAYL VHISKI","BANDIT","BANDIT","BANDIT","BANDIT","BANDIT","BANDIT","BANDIT"]
 
-		@common_cards = {}
-
-		@common_cards["Long Sword"] = {}
-		@common_cards["Short Sword"] = {}
 
 		@location_decks = {}
 		@location_cards = {}
+
 
 		@location_cards["WOODS"] = {
 			"Monster" => 4,
@@ -184,45 +188,46 @@ class Game
 #		p location_numbers
 
 		@blessings = [ 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS", 
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS", 
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
+			"BLESSING OF THE GODS","BLESSING OF THE GODS","BLESSING OF THE GODS",
 		]
 
 		@blessings_discards = []
 		@player_decks = {}
 
 		@player_decks["VALEROS"] = [
-		   "Long Sword", "Long Sword", "Dagger", "Short Sword", "Mace", 
-			"Chain Mail", "Wooden Sheild", "Wooden Sheild", 
-			"Night Watch", "Standard Bearer",
-			"Blessing of the Gods", "Blessing of the Gods", "Blessing of the Gods", 
-			"Blessing of the Gods", "Blessing of the Gods"
+		   "LONG SWORD", "LONG SWORD", "DAGGER", "SHORT SWORD", "MACE", 
+			"CHAIN MAIL", "WOODEN SHEILD", "WOODEN SHEILD", 
+			"NIGHT WATCH", "STANDARD BEARER",
+			"BLESSING OF THE GODS", "BLESSING OF THE GODS", "BLESSING OF THE GODS", 
+			"BLESSING OF THE GODS","BLESSING OF THE GODS"
 		]
 
 		@player_decks["EZREN"] = [
-			"Quarterstaff",
-			"Arcane Armor", "Detect Magic", "Force Missile", "Invisibility",
-			"Levitate", "Lightning Touch", "Lightning Touch", "Sleep",
-			"Blast Stone", "Bracers of Protection", "Codex",
-			"Night Watch", "Sage", "Standard Bearer"
+			"QUARTERSTAFF",
+			"ARCANE ARMOR", "DETECT MAGIC", "FORCE MISSILE", "INVISIBILITY",
+			"LEVITATE", "LIGHTNING TOUCH", "LIGHTNING TOUCH", "SLEEP",
+			"BLAST STONE", "BRACERS OF PROTECTION", "CODEX",
+			"NIGHT WATCH", "SAGE", "STANDARD BEARER"
 		]
 
 		@player_decks["MERISIEL"] = [
-			"Dagger", "Dart",
-			"Leather Armor",
-			"Caltrops", "Crowbar", "Potion of Glibness", "Potion of Vision",
-			"Theives' Tools", "Theives' Tools", 
-			"Burglar", "Guard",
-			"Blessing of the Gods", "Blessing of the Gods",
-			"Blessing of the Gods", "Blessing of the Gods",
+			"DAGGER", "DART",
+			"LEATHER ARMOR",
+			"CALTROPS", "CROWBAR", "POTION OF GLIBNESS", "POTION OF VISION",
+			"THEIVES' TOOLS", "THEIVES' TOOLS", 
+			"BURGLAR", "GUARD",
+			"BLESSING OF THE GODS", "BLESSING OF THE GODS",
+			"BLESSING OF THE GODS", "BLESSING OF THE GODS",
 		]
 
 		@player_hands = {}
@@ -349,7 +354,8 @@ class Game
 #			p @location_decks[key]
 		end
 
-
+		@encounter_card = nil
+		@situation = [] # used for chekcing trigers on cards
 
 =begin
 		draw( @player_decks["VALEROS"] , @player_hands["VALEROS"] , 4)
@@ -364,13 +370,65 @@ class Game
 
 	end
 
-	def explore(player, current_location)
+	def use_power( status )
+
+	end
+
+	def check_encounter( current_location )
+	end
+
+	def check_evade( current_location )
+#		card_name = "BLESSING OF THE GODS"
+#		print card_name,"\n"
+#		print @common_cards[card_name],"\n"
+#		print @common_cards["BLESSING OF THE GODS"],"\n"
+
+		avaiable_cards = []
+		@players.each do |player|
+#			print player,"\n"
+			@player_hands[player].each do |card|
+				print card,"\n"
+#				print @common_cards[card],"\n"
+				next if @common_cards[card]["Triger"] == nil
+				@common_cards[card]["Triger"].each do |triger|
+					if triger == "Evade"
+						avaiable_cards.push card
+						break
+					end
+				end
+			end
+		end
+		print avaiable_cards
+		return false
+	end
+
+	def explore(player,current_location)
+		encounter_cards = []
 		if @location_decks[current_location].size < 1
 			print "No more cards at #{current_location}!! You can not explore this location.\n"
 			return false
 		end
-		encounter_card = @location_decks[current_location].pop
-		print "You will encounter [#{encounter_card}]\n"
+		@encounter_card = @location_decks[current_location].pop
+		print "You will encounter [#{@encounter_card}].\n"
+		if check_encounter(current_location)
+			print "You evade this encounter.\n"
+			return "evade"
+		end
+
+		# when you encounter card
+
+		# evade
+		if check_evade(current_location)
+			print "You evade this encounter.\n"
+			return "evade"
+		end
+
+		# before you encounter card
+
+		# encountering
+
+		# after you encounter card
+
 
 	end
 
